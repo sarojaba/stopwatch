@@ -1,19 +1,27 @@
 # stopwatch
 
-small stopwatch library using java 8
+Small stopwatch library using java 8
+
+Two types: mili-seconds, nano-seconds
 
 ## Usage
 Using reference to a static method
 ```java
-long delay = Stopwatch.mili().time(StopwatchTest::delay500ms);
+public class StopwatchTest {
 
-long delay10 = Stopwatch.mili().time(StopwatchTest::delay500ms, 10);
+	@Test
+	public static void delay500ms() {
+		long delay = Stopwatch.mili().time(StopwatchTest::delay500ms);
+
+		long delay10 = Stopwatch.mili().time(StopwatchTest::delay500ms, 10);
+	}
   
-public static void delay500ms() {
-	try {
-		Thread.sleep(500);
-	} catch (InterruptedException e) {
-		e.printStackTrace();
+	public static void delay500ms() {
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
 ```
