@@ -7,7 +7,9 @@ package com.sarojaba.stopwatch;
  *
  */
 public abstract class Stopwatch {
-
+	
+	/* factory method */
+	
 	public static Stopwatch mili() {
 		return new MiliStopwatch();
 	}
@@ -15,6 +17,26 @@ public abstract class Stopwatch {
 	public static Stopwatch nano() {
 		return new NanoStopwatch();
 	}
+	
+	/* easy-use method */
+
+	public static long mili(Runnable runnable) {
+		return mili().time(runnable);
+	}
+
+	public static long mili(Runnable runnable, int loop) {
+		return mili().time(runnable, loop);
+	}
+	
+	public static long nano(Runnable runnable) {
+		return nano().time(runnable);
+	}
+
+	public static long nano(Runnable runnable, int loop) {
+		return nano().time(runnable, loop);
+	}
+	
+	/* implement */
 
 	abstract protected long sysTime();
 
