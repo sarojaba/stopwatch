@@ -11,9 +11,13 @@ public class StopwatchTest {
 
 	@Test
 	public static void delay500ms() {
-		long delay = Stopwatch.mili().time(StopwatchTest::delay500ms);
-
-		long delay10 = Stopwatch.mili().time(StopwatchTest::delay500ms, 10);
+	
+		// test user-defined static method 
+		long delay = Stopwatch.mili(StopwatchTest::delay500ms);
+		long delay10 = Stopwatch.mili(StopwatchTest::delay500ms, 10);
+		
+		// test method using iteration
+		long delay100 = Stopwatch.nano(Math::random(), 100);
 	}
   
 	public static void delay500ms() {
@@ -28,7 +32,7 @@ public class StopwatchTest {
 
 Using lambda expression
 ```java
-long delay = Stopwatch.nano().time(() -> {
+long delay = Stopwatch.nano(() -> {
 	int sum = 0;
 	for(int i = 0; i < 100; i++) {
 		sum++;
@@ -36,8 +40,18 @@ long delay = Stopwatch.nano().time(() -> {
 });
 ```
 
-```java 
-long delay100 = Stopwatch.nano().time(() -> {
-	Math.random();
-}, 100);
+Using runnable object
+```java
+Runnable tooSlowOperation = new Runnable() {
+	@Override
+	public void run() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+};
+
+long delay = Stopwatch.mili(tooSlowOperation);
 ```

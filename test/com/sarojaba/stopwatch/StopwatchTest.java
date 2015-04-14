@@ -52,4 +52,24 @@ public class StopwatchTest {
 			e.printStackTrace();
 		}
 	}
+
+	@Test
+	public void testRunnable() {
+
+		Runnable tooSlowOperation = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		};
+
+		long delay = Stopwatch.mili(tooSlowOperation);
+
+		assertTrue(delay > 900);
+		assertTrue(delay < 1100);
+	}
 }
