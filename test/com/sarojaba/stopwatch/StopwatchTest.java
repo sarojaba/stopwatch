@@ -80,6 +80,8 @@ public class StopwatchTest {
 
 		assertTrue(delay > 900);
 		assertTrue(delay < 1100);
+		
+		System.out.println(Stopwatch.task(Sample::main).nano());
 	}
 }
 
