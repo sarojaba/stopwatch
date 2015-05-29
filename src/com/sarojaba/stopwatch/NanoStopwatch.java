@@ -6,11 +6,15 @@ package com.sarojaba.stopwatch;
  * @author sarojaba
  *
  */
-public class NanoStopwatch extends Stopwatch {
+public class NanoStopwatch extends AbstractStopwatch {
 
 	@Override
 	protected long sysTime() {
 		return System.nanoTime();
 	}
-
+	
+	@Override
+	public String toString() {
+		return super.toString() + " ns";
+	}
 }

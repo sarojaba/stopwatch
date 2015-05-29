@@ -1,66 +1,31 @@
 package com.sarojaba.stopwatch;
 
-/**
- * Stopwatch class
- * 
- * @author sarojaba
- *
- */
-public abstract class Stopwatch {
-	
-	/* factory method */
-	
-	public static Stopwatch mili() {
-		return new MiliStopwatch();
-	}
+public class Stopwatch {
 
-	public static Stopwatch nano() {
-		return new NanoStopwatch();
-	}
-	
 	/* easy-use method */
 
-	public static long mili(Runnable runnable) {
-		return mili().time(runnable);
+	public static StopwatchBuilder task(Runnable runnable) {
+		return task(runnable, 1);
 	}
 
-	public static long mili(Runnable runnable, int loop) {
-		return mili().time(runnable, loop);
-	}
-	
-	public static long nano(Runnable runnable) {
-		return nano().time(runnable);
+	public static StopwatchBuilder task(Runnable runnable, int count) {
+		return new StopwatchBuilder().task(runnable, count);
 	}
 
-	public static long nano(Runnable runnable, int loop) {
-		return nano().time(runnable, loop);
-	}
-	
-	/* implement */
-
-	abstract protected long sysTime();
-
-	public long time(Runnable runnable) {
-
-		long start = sysTime();
-
-		runnable.run();
-
-		long end = sysTime();
-
-		return end - start;
+	public static StopwatchBuilder task(Mainnable mainnable) {
+		return task(mainnable, 1);
 	}
 
-	public long time(Runnable runnable, int loop) {
+	public static StopwatchBuilder task(Mainnable mainnable, int count) {
+		return task(mainnable, count, new String[0]);
+	}
 
-		long start = sysTime();
+	public static StopwatchBuilder task(Mainnable mainnable, String... args) {
+		return task(mainnable, 1, args);
+	}
 
-		for (int i = 0; i < loop; i++) {
-			runnable.run();
-		}
-
-		long end = sysTime();
-
-		return end - start;
+	public static StopwatchBuilder task(Mainnable mainnable, int count,
+			String... args) {
+		return new StopwatchBuilder().task(mainnable, count, args);
 	}
 }

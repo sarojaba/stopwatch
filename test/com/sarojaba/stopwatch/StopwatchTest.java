@@ -9,7 +9,7 @@ public class StopwatchTest {
 	@Test
 	public void testMiliTime() {
 
-		long delay = Stopwatch.mili(StopwatchTest::delay500ms);
+		long delay = Stopwatch.task(StopwatchTest::delay500ms).mili().time();
 
 		assertTrue(delay > 450);
 		assertTrue(delay < 550);
@@ -18,7 +18,7 @@ public class StopwatchTest {
 	@Test
 	public void testMiliTimeMulti() {
 
-		long delay = Stopwatch.mili(StopwatchTest::delay500ms, 2);
+		long delay = Stopwatch.task(StopwatchTest::delay500ms, 2).mili().time();
 
 		assertTrue(delay > 900);
 		assertTrue(delay < 1100);
@@ -27,7 +27,7 @@ public class StopwatchTest {
 	@Test
 	public void testNanoTime() {
 
-		long delay = Stopwatch.nano(StopwatchTest::delay500ms);
+		long delay = Stopwatch.task(StopwatchTest::delay500ms).nano().time();
 
 		assertTrue(delay > 450000000);
 		assertTrue(delay < 550000000);
@@ -36,7 +36,7 @@ public class StopwatchTest {
 	@Test
 	public void testNanoTimeMulti() {
 
-		long delay = Stopwatch.nano(StopwatchTest::delay500ms, 2);
+		long delay = Stopwatch.task(StopwatchTest::delay500ms, 2).nano().time();
 
 		assertTrue(delay > 900000000);
 		assertTrue(delay < 1100000000);
@@ -67,9 +67,28 @@ public class StopwatchTest {
 			}
 		};
 
-		long delay = Stopwatch.mili(tooSlowOperation);
+		long delay = Stopwatch.task(tooSlowOperation).mili().time();
 
 		assertTrue(delay > 900);
 		assertTrue(delay < 1100);
+	}
+
+	@Test
+	public void testMainnable() {
+
+		long delay = Stopwatch.task(Sample::main).mili().time();
+
+		assertTrue(delay > 900);
+		assertTrue(delay < 1100);
+	}
+}
+
+class Sample {
+	public static void main(String[] args) {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
